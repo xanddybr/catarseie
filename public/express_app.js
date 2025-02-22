@@ -1,16 +1,16 @@
 const express = require('express')
 const {engine} = require('express-handlebars')
 const transporter = require('./nodeMailer')
-const moment = require('moment-timezone')
 const mysqlCommand = require('./mysql_conn')
-
+const moment = require('moment-timezone')
 
 const app = express()
+const bodyParser = require('body-parser')
 const date = moment.tz('America/Sao_Paulo');
 const dateFormat = date.format('HH:mm:ss DD/MM/YYYY')
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(express.static('assets'))
 
@@ -26,7 +26,8 @@ app.set('views', './views')
 
     app.post('/submit', (req, res) => { 
         const { firstName, lastName, phone, email, yourCity, age, howWeMet, positionLife, agreeNotify } = req.body
-        const sqlSelect = "select email from fly_pigeon.person where email = '"+ email +"'";
+
+        /*const sqlSelect = "select email from fly_pigeon.person where email = '"+ email +"'";
         mysqlCommand.query(sqlSelect, (err, result) => {
             if(err) {   
                 res.status(401).send(err)
@@ -99,7 +100,7 @@ app.set('views', './views')
                         }
                     })
                 }
-            }) 
+            }) */
     })
 
     app.get('/delete/:id', (req, res) => {
@@ -156,6 +157,10 @@ app.set('views', './views')
         })
     })
 
+    function sum(v1, v2) {
+        return v1 + v2
+    }
+
     // mysqlCommand.query("DELETE FROM person WHERE idPerson = " + req.params.id), (err, result) => {})
     
-    module.exports = app 
+module.exports = app, sum;

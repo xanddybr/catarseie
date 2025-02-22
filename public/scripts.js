@@ -61,7 +61,7 @@ btnvideo.addEventListener("click",()=> {
       setTimeout(()=> {
          message1.textContent = "";
          message2.textContent = "";        
-      }, 10000);
+      }, 20000);
     
         if (!firstName || firstName.length < 3) {
          message1.textContent = "Seu NOME precisa ter pelo menos 3 caracteres"
@@ -80,7 +80,6 @@ btnvideo.addEventListener("click",()=> {
           return;
         }
       
-        
         if (phone.length < 11 ) {
           message1.textContent = "Por favor informe um CELULAR válido com 11 digitos! "
           return;
@@ -106,7 +105,7 @@ btnvideo.addEventListener("click",()=> {
           return;
         }
 
-      const data = {};
+      const data = { };
       data.firstName = firstName.toLowerCase()
       data.lastName = lastName.toLowerCase()
       data.phone = phone.toLowerCase()
