@@ -11,8 +11,6 @@ function onloadInit() {
     catchLead.style.display = "none"
 }
 
-
-
 btnvideo.addEventListener("click",()=> {
 
     if(btnvideo.textContent == "Quero Minha Apostila Grátis") btnvideo.disabled = true
@@ -35,18 +33,22 @@ checkAgree.addEventListener("change",()=> {
     }
 })
 
-fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados') // Replace with your API URL
-        .then(response => response.json())
-        .then(data => {
-            cityInput.innerHTML = ""; // Clear previous options if needed
-            // Loop through the array and create option elements
-            data.forEach(item => {
-                let option = document.createElement("option");
-                option.value = item.nome
-                option.textContent = item.nome  // Assuming each item has an 'id'
-                cityInput.appendChild(option);
-            });
-        })
-.catch(error => alert("O campo cidade não pode ser carregado!: ", error));
+async function fetchStates(url) {
+    const response = await fetch(url)
+    const data = await response.json()
+    cityInput.innerHTML = `<option value="nenhum valor selecionado">Informe seu Estado</option>`
+    let dataset = data
+    dataset.sort((a, b) => a.nome.localeCompare(b.nome))
+    console.log(dataset)
+    data.forEach(item => {
+        let option = document.createElement("option");
+        option.value = item.nome
+        option.textContent = item.nome  // Assuming each item has an 'id'
+        cityInput.appendChild(option);
+      
+    }) .catch(error => alert("Erro ao carregar o campo estados: ", error));
+} 
+
 
 onloadInit()
+fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
