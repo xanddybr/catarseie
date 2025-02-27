@@ -39,8 +39,8 @@ async function fetchStates(url) {
     cityInput.innerHTML = `<option value="nenhum valor selecionado">Informe seu Estado</option>`
     let dataset = data
     dataset.sort((a, b) => a.nome.localeCompare(b.nome))
-    console.log(dataset)
-    data.forEach(item => {
+
+    dataset.forEach(item => {
         let option = document.createElement("option");
         option.value = item.nome
         option.textContent = item.nome  // Assuming each item has an 'id'
