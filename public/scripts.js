@@ -9,6 +9,7 @@ const video = document.getElementById("video")
 function onloadInit() {
     video.style.display = "block"
     catchLead.style.display = "none"
+    fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
 }
 
 btnvideo.addEventListener("click",()=> {
@@ -22,7 +23,6 @@ btnvideo.addEventListener("click",()=> {
   catchLead.style.display = "block"
   myHistory.style.display = "none"
   mainTitle.textContent = "PREENCHA OS CAMPOS PARA OBTER SUA APOSTILA GRATUITA!"
-  
 })
 
 checkAgree.addEventListener("change",()=> {
@@ -49,6 +49,44 @@ async function fetchStates(url) {
     }) .catch(error => alert("Erro ao carregar o campo estados: ", error));
 } 
 
+function mascara(o,f){
+    v_obj=o
+    v_fun=f
+    setTimeout("execmascara()",1)
+}
+
+function execmascara(){
+    v_obj.value=v_fun(v_obj.value)
+}
+
+function telefone(v){
+    v=v.replace(/\D/g,"")                 //Remove tudo o que não é dígito
+    v=v.replace(/^(\d\d)(\d)/g,"($1) $2") //Coloca parênteses em volta dos dois primeiros dígitos
+    v=v.replace(/(\d{5})(\d)/,"$1-$2")    //Coloca hífen entre o quarto e o quinto dígitos
+    return v
+}
+
+function validateEmail(email) {
+  
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const hasValidStructure = re.test(email);
+    const hasValidDomain = email.split('@')[1]?.includes('.');
+    const hasNoIllegalChars = /^[a-zA-Z0-9.@_-]+$/.test(email);
+  
+    if (!hasValidStructure) {
+      return 'Invalid email format';
+    }
+    if (!hasValidDomain) {
+      return 'Invalid domain';
+    }
+    if (!hasNoIllegalChars) {
+      return 'Email contains illegal characters';
+    }
+  
+    return true;
+  }
+  
 
 onloadInit()
-fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+

@@ -24,7 +24,7 @@
         </video>
       </div>
 
-<form  action="http://localhost:3000/poll" method="post">
+<form  action="http://localhost:3000/" method="post">
 <div id="catchLead">
  <div *ngIf="catchLeadPanel">     
    <br>
@@ -33,8 +33,8 @@
                 <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="name" placeholder="Nome"></div>
                 <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="lastName" placeholder="Ultimo nome"></div>
         </div>
-              <div class="mb-2"><input type="text" class="form-control" name="email" placeholder="Informe seu E-mail"></div>
-               <div class="mb-2"><input type="text" class="form-control" name="phone" placeholder="(99)99999-999" id="phoneInput"></div>
+              <div class="mb-2"><input type="text" class="form-control" name="email" placeholder="Informe seu melhor e-mail"></div>
+               <div class="mb-2"><input class="form-control" onkeypress="mascara(this, telefone)" maxlength="15" placeholder="(__) _____-____" type="text" name="phone"></div>
                 <div class="mb-2">
                 <select class="form-control" id="cityInput" name="state">
                   <option selected value="">Informe o seu estado</option>
