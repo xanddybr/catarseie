@@ -1,1 +1,4 @@
 /node_modules
+/assets/myhistory.mp4
+*.mp4
+myhistory.mp4
