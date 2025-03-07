@@ -21,9 +21,18 @@ app.set('views', './views')
     })
 
     app.post('/submit', (req, res) => { 
-       /* sqlinsert = "INSERT INTO person VALUES (null,'"+ req.body.fristName +"', '"+ req.body.lastName +"', '"+ req.body.phone +"', '"+ req.body.email +"', null, 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ req.body.state +"' ,  '"+ req.body.age +"', '"+ req.body.howWeMet +"', '"+ req.body.positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))"; */
-       const { fristName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
-      
+       const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife } = req.body
+       /*const sqlinsert = "INSERT INTO person VALUES (null,'"+ req.body.fristName +"', '"+ req.body.lastName +"', '"+ req.body.phone +"', '"+ req.body.email +"', null, 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ req.body.state +"' ,  '"+ req.body.age +"', '"+ req.body.howWeMet +"', '"+ req.body.positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))";
+       const query = 'INSERT INTO users (firstName, lastName, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+       db.query(sqlinsert, [firstName, lastName, phone, email, yourState, age, howWeMet, positionLife], (err, res) => {
+         if (err) {
+           console.error('Error inserting data into the database:', err);
+           return res.status(500).json({ message: 'Error inserting data into the database' });
+         }
+         res.status(200).json({ message: 'Form submitted successfully!' });
+       }); */
+      res.status(200).json("Seus dados chegaram aqui com sucesso! viu..");
+      res.end()
     })
 
     app.delete('/delete/:id', (req, res) => {

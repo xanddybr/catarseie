@@ -7,7 +7,6 @@ const video = document.getElementById("video")
 const myform = document.getElementById("myform")
 
 
-
 function onloadInit() {
     catchLead.style.display = "none"
     video.style.display = "block"
@@ -26,6 +25,7 @@ btnvideo.addEventListener("click",()=> {
       catchLead.style.display = "block"
       myHistory.style.display = "none"  
       mainTitle.textContent = "PREENCHA OS CAMPOS PARA OBTER SUA APOSTILA GRATUITA!"
+      
       break
     case "Baixar Apostila":
       
@@ -89,14 +89,40 @@ btnvideo.addEventListener("click",()=> {
           return;
         }
 
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone, // Example: 15-digit phone number
+        email: email
+      };
         
-
-        
-    
+      fetch('/submit', {
+          method: 'POST', // Use POST method
+          headers: {
+            'Content-Type': 'application/json' // Specify JSON format
+          },
+          body: JSON.stringify(data) // Convert the data object to a JSON string
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); 
+          })
+          .then(result => {
+            console.log('Data submitted successfully:', result);
+           
+          })
+          .catch(error => {
+            console.error('Error submitting data:', error);
+            
+          });
+         
       break
 
-      }
-  })
+       } 
+
+    })
 
   agreeNotify.addEventListener("change",()=> {
     if(agreeNotify.checked){
@@ -138,31 +164,6 @@ function telefone(v){
     return v
 }
 
-function validateEmail() {
-
-    const emailv = email.value;
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const hasValidStructure = re.test(emailv);
-    const hasValidDomain = emailv.split('@')[1]?.includes('.');
-    const hasNoIllegalChars = /^[a-zA-Z0-9.@_-]+$/.test(emailv);
-
-    console.log(hasValidStructure)
-    console.log(hasValidDomain)
-    console.log(hasNoIllegalChars)
-  
-    if (!hasValidStructure) {
-      return false;
-    }
-    if (!hasValidDomain) {
-      return false;
-    }
-    if (!hasNoIllegalChars) {
-      return false;
-    }
-  
-    return true;
-  }
-  
   onloadInit()
 
 
