@@ -1,8 +1,8 @@
 const express = require('express')
 const {engine} = require('express-handlebars')
 const mysqlCommand = require('./mysql_conn')
-const app = express()
 
+const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -14,30 +14,21 @@ app.use('/css', express.static('./css'))
 app.set('view engine', 'handlebars')
 app.set('views', './views')
 
-// sqlinsert = "INSERT INTO person VALUES (null, 'Paulo', 'Mendes', '2124986870', 'luiza@gmail.com', md5('alex@2024'), 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'first poll', '15 a 30', 'financeira', 'instagram', 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'));"
+        /* sqlinsert = "INSERT INTO person VALUES (null, 'Paulo', 'Mendes', '2124986870', 'luiza@gmail.com', md5('alex@2024'), 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'first poll', '15 a 30', 'financeira', 'instagram', 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'));" */
 
     app.get('/', (req, res) => {
-        res.render('form',{})
+        res.render('form')
     })
 
-
-    app.post('/', (req, res) => {
-
-        sqlinsert = "INSERT INTO person VALUES (null,'"+ req.body.name +"', '"+ req.body.lastName +"', '"+ req.body.phone +"', '"+ req.body.email +"', null, 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ req.body.state +"' ,  '"+ req.body.age +"', '"+ req.body.howDidYouFindUs +"', '"+ req.body.positionLife + "', 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))";
-        mysqlCommand.query(sqlinsert, (err, result) => {
-           if(err) {
-               console.log(err)
-               res.send('Erro ao inserir dados... '+ err)
-               }    
-               res.status(200).send("Dados inseridos com sucesso... "+ result.body)
-               res.end()
-        })
+    app.post('/submit', (req, res) => { 
+       /* sqlinsert = "INSERT INTO person VALUES (null,'"+ req.body.fristName +"', '"+ req.body.lastName +"', '"+ req.body.phone +"', '"+ req.body.email +"', null, 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ req.body.state +"' ,  '"+ req.body.age +"', '"+ req.body.howWeMet +"', '"+ req.body.positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))"; */
+       const { fristName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
+      
     })
 
-    app.delete('/delete/:severals', (req, res) => {
-
-        const severals = req.params.severals
-       mysqlCommand.query("DELETE FROM person WHERE idPerson in (" + severals + ")", (err, result) => {
+    app.delete('/delete/:id', (req, res) => {
+        const  id = req.params.id
+        mysqlCommand.query("DELETE FROM person WHERE idPerson in (" + id + ")", (err, result) => {
             if(err) {
                 console.log(err)
                 res.send('Erro ao deletar dados... ' + err)
@@ -48,11 +39,5 @@ app.set('views', './views')
     })
 
     // mysqlCommand.query("DELETE FROM person WHERE idPerson = " + req.params.id), (err, result) => {})
-     
-  
-    
 
-  
-        
-
-module.exports = app 
+    module.exports = app 

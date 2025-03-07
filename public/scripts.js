@@ -2,31 +2,104 @@ const btnvideo = document.getElementById("btnvideo")
 const catchLead = document.getElementById("catchLead")
 const myHistory = document.getElementById("myHistory")
 const mainTitle = document.getElementById("mainTitle")
-const checkAgree = document.getElementById("checkAgree")
-const cityInput = document.getElementById("cityInput")
+const notifyAgre = document.getElementById("notifyAgre")
 const video = document.getElementById("video")
+const myform = document.getElementById("myform")
+
+
 
 function onloadInit() {
-    video.style.display = "block"
     catchLead.style.display = "none"
+    video.style.display = "block"
+    btnvideo.value = "Quero Minha Apostila Grátis"
+    mainTitle.textContent = "PREENCHA OS CAMPOS PARA OBTER SUA APOSTILA GRATUITA!"
     fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
 }
 
 btnvideo.addEventListener("click",()=> {
+  switch (btnvideo.value) { 
+    case "Quero Minha Apostila Grátis":
+      video.pause()
+      video.style.display = "none"
+      btnvideo.value = "Baixar Apostila"
+      btnvideo.disabled = true
+      catchLead.style.display = "block"
+      myHistory.style.display = "none"  
+      mainTitle.textContent = "PREENCHA OS CAMPOS PARA OBTER SUA APOSTILA GRATUITA!"
+      break
+    case "Baixar Apostila":
+      
+      const firstName = document.getElementById('firstName').value.trim()
+      const lastName = document.getElementById('lastName').value.trim()
+      const phone = document.getElementById('phone').value.trim()
+      const email = document.getElementById('email').value.trim()
+      const yourState = document.getElementById('yourState').value
+      const age = document.getElementById('age').value
+      const howWeMet = document.getElementById('howWeMet').value
+      const positionLife = document.getElementById('positionLife').value
+      const agreeNotify = document.getElementById('agreeNotify').value
+      const message = document.getElementById('message')
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const hasValidDomain = email.split('@')[1]?.includes('.')
+      const hasNoIllegalChars = /^[a-zA-Z0-9.@_-]+$/.test(email)
 
-    if(btnvideo.textContent == "Quero Minha Apostila Grátis") btnvideo.disabled = true
-    if(btnvideo.textContent == "Baixar Apostila"){ }
+      message.textContent = "";
+      message.style.color = "red"
 
-  video.pause()
-  video.style.display = "none"
-  btnvideo.textContent = "Baixar Apostila"
-  catchLead.style.display = "block"
-  myHistory.style.display = "none"
-  mainTitle.textContent = "PREENCHA OS CAMPOS PARA OBTER SUA APOSTILA GRATUITA!"
-})
+        if (!firstName || firstName.length < 3) {
+         message.textContent = "Seu nome precisa ter pelo menos 3 caracteres"
+         
+          return;
+        }
 
-checkAgree.addEventListener("change",()=> {
-    if(checkAgree.checked){
+        if (!lastName || lastName.length < 5) {
+          message.textContent = "Seu sobre nome precisa ter pelo menos 5 caracteres"
+         
+          return;
+        }
+        
+        if (!email || !emailRegex.test(email) || !hasValidDomain || !hasNoIllegalChars) {
+          message.textContent = "Por favor informe um E-mail válido!"
+          return;
+        }
+      
+        const phoneRegex = /^\(\d{2}\) 9\d{4}-\d{4}$/
+        if (!phoneRegex.test(phone)) {
+          message.textContent = "Por favor informe um Celular válido!"
+          return;
+        }
+
+        if (!yourState) {
+          message.textContent = "Por favor, selecione seu estado!"
+          return;
+        }
+      
+        if (!age) {
+          message.textContent = "Por favor, uma faixa de idade!"
+          return;
+        }
+
+        if (!howWeMet) {
+          message.textContent = "Por favor, informe como chegou até nós?"
+          return;
+        }
+
+        if (!positionLife) {
+          message.textContent = "Informe a área que precisa da sua atenção?";
+          return;
+        }
+
+        
+
+        
+    
+      break
+
+      }
+  })
+
+  agreeNotify.addEventListener("change",()=> {
+    if(agreeNotify.checked){
         btnvideo.disabled = false
     }else{
         btnvideo.disabled = true
@@ -36,15 +109,14 @@ checkAgree.addEventListener("change",()=> {
 async function fetchStates(url) {
     const response = await fetch(url)
     const data = await response.json()
-    cityInput.innerHTML = `<option value="nenhum valor selecionado">Informe seu Estado</option>`
+    yourState.innerHTML = `<option value="">Informe seu estado?</option>`
     let dataset = data
     dataset.sort((a, b) => a.nome.localeCompare(b.nome))
-
     dataset.forEach(item => {
         let option = document.createElement("option");
         option.value = item.nome
         option.textContent = item.nome  // Assuming each item has an 'id'
-        cityInput.appendChild(option);
+        yourState.appendChild(option);
       
     }) .catch(error => alert("Erro ao carregar o campo estados: ", error));
 } 
@@ -66,27 +138,31 @@ function telefone(v){
     return v
 }
 
-function validateEmail(email) {
-  
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function validateEmail() {
 
-    const hasValidStructure = re.test(email);
-    const hasValidDomain = email.split('@')[1]?.includes('.');
-    const hasNoIllegalChars = /^[a-zA-Z0-9.@_-]+$/.test(email);
+    const emailv = email.value;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const hasValidStructure = re.test(emailv);
+    const hasValidDomain = emailv.split('@')[1]?.includes('.');
+    const hasNoIllegalChars = /^[a-zA-Z0-9.@_-]+$/.test(emailv);
+
+    console.log(hasValidStructure)
+    console.log(hasValidDomain)
+    console.log(hasNoIllegalChars)
   
     if (!hasValidStructure) {
-      return 'Invalid email format';
+      return false;
     }
     if (!hasValidDomain) {
-      return 'Invalid domain';
+      return false;
     }
     if (!hasNoIllegalChars) {
-      return 'Email contains illegal characters';
+      return false;
     }
   
     return true;
   }
   
+  onloadInit()
 
-onloadInit()
 

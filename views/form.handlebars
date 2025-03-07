@@ -8,9 +8,7 @@
     <br>
     <div id="son1" class="col videoArea" style="text-align: center;">
       <br>
-      <div id="mainTitle" class="d-flex justify-content-center fontTitulo" style="text-align: center;">
-        COMEÇE HOJE MESMO COM A APOSTILA QUE IREI LHE PRESENTEAR!
-        </div>  
+      <div id="mainTitle" class="d-flex justify-content-center fontTitulo" style="text-align: center;"> </div>  
       <br>
         <div id="myHistory" class="fontSubTitulo">
           CONHEÇA A MINHA HISTÓRIA, <BR>E VEJA QUE O FATO DE ENTENDER QUEM SOMOS FAZ TODA A DIFERENÇA!
@@ -23,26 +21,24 @@
             <source src="/pictures/myhistory.mp4" type="video/mp4">
         </video>
       </div>
-
-<form  action="http://localhost:3000/" method="post">
+<form id="myform">
 <div id="catchLead">
  <div *ngIf="catchLeadPanel">     
    <br>
       <div class="col-11 col-md-5 col-lg-5 col-xl-3" style="margin: auto;">
         <div class="d-flex justify-content-between ">
-                <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="name" placeholder="Nome"></div>
-                <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="lastName" placeholder="Ultimo nome"></div>
+                <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="fristName" id="firstName" placeholder="Nome"></div>
+                <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="lastName" id="lastName" placeholder="Ultimo nome"></div>
         </div>
-              <div class="mb-2"><input type="text" class="form-control" name="email" placeholder="Informe seu melhor e-mail"></div>
-               <div class="mb-2"><input class="form-control" onkeypress="mascara(this, telefone)" maxlength="15" placeholder="(__) _____-____" type="text" name="phone"></div>
+              <div class="mb-2"><input type="text" class="form-control" name="email" id="email" placeholder="Informe seu melhor e-mail"></div>
+               <div class="mb-2"><input class="form-control" onkeypress="mascara(this, telefone)" name="phone" id="phone" maxlength="15" placeholder="Informe número com ddd, ex: (00)00000-0000" type="text" ></div>
                 <div class="mb-2">
-                <select class="form-control" id="cityInput" name="state">
-                  <option selected value="">Informe o seu estado</option>
+                <select class="form-control" id="yourState" name="yourState">
                 </select>
                 </div>
                 <div class="mb-2">
-                  <select class="form-control" name="age">
-                      <option selected value="">Em que faixa de idade você se encontra</option>
+                  <select class="form-control" name="age" id="age">
+                      <option selected value="">Em qual faixa de idade você se encontra?</option>
                       <option value="15 á 30">15 á 30</option>
                       <option value="30 á 45">30 á 45</option>
                       <option value="60 á 75">60 á 75</option>
@@ -51,8 +47,8 @@
                   </select>
                 </div>
                 <div class="mb-2">
-                  <select class="form-control" name="howDidYouFindUs">
-                      <option selected value="">Informe como chegou até nós</option>
+                  <select class="form-control" name="howWeMet" id="howWeMet">
+                      <option selected value="">Informe como chegou até nós?</option>
                       <option value="Instagram">Instagram</option>
                       <option value="FaceBook">FaceBook</option>
                       <option value="YouTube">YouTube</option>
@@ -62,8 +58,8 @@
                   </select>
                 </div>
                 <div class="mb-2">
-                  <select class="form-control" name="positionLife">
-                      <option selected value="">Qual area da sua vida precisa de mais atenção?</option>
+                  <select class="form-control" name="positionLife" id="positionLife">
+                      <option selected value="">Qual área da sua vida precisa de mais atenção?</option>
                       <option value="Financeira">Financeira</option>
                       <option value="Profissional">Profissional</option>
                       <option value="Sentimental">Sentimental</option>
@@ -71,16 +67,19 @@
                       <option value="Saúde Fisica">Saúde Fisica</option>
                   </select>
               </div>           
-                     <div class="mb-2" style="color: white;" name="agreeNotify">
-                <input type="checkbox" id="checkAgree"> Autorizo receber informações sobre o treinamento Catarseie meu e-mail ou smartphone
+                     <div class="mb-2" style="color: white;" >
+                <input type="checkbox" name="agreeNotify" id="agreeNotify" value=1> Autorizo receber informações sobre o treinamento Catarseie meu e-mail ou smartphone.
                </div>
             </div>  
+            
      </div>
+    
 
 <!-- Begin CatchLead -->
 
   </div>
-   <button id="btnvideo" type="submit" class="btn btn-light buttonFile" type="button">Quero Minha Apostila Grátis</button><br><br>
+ <div class="d-flex justify-content-center" id="message"></div>
+   <input id="btnvideo" class="btn btn-light buttonFile"><br><br>
   </div>
 </form>
  <footer>
