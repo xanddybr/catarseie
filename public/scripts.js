@@ -37,54 +37,60 @@ btnvideo.addEventListener("click",()=> {
       const age = document.getElementById('age').value
       const howWeMet = document.getElementById('howWeMet').value
       const positionLife = document.getElementById('positionLife').value
-      const message = document.getElementById('message')
+      const message1 = document.getElementById('message1')
+      const message2 = document.getElementById('message2')
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const hasValidDomain = email.split('@')[1]?.includes('.')
       const hasNoIllegalChars = /^[a-zA-Z0-9.@_-]+$/.test(email)
 
-      message.textContent = "";
-      message.style.color = "red"
+      setTimeout(()=> {
+         message1.textContent = "";
+         message2.textContent = "";        
+      }, 10000);
+
+    
+      message1.style.color = "red"
 
         if (!firstName || firstName.length < 3) {
-         message.textContent = "Seu nome precisa ter pelo menos 3 caracteres"
+         message1.textContent = "Seu nome precisa ter pelo menos 3 caracteres"
          
           return;
         }
 
         if (!lastName || lastName.length < 5) {
-          message.textContent = "Seu sobre nome precisa ter pelo menos 5 caracteres"
+          message1.textContent = "Seu sobre nome precisa ter pelo menos 5 caracteres"
          
           return;
         }
         
         if (!email || !emailRegex.test(email) || !hasValidDomain || !hasNoIllegalChars) {
-          message.textContent = "Por favor informe um E-mail válido!"
+          message1.textContent = "Por favor informe um E-mail válido!"
           return;
         }
       
         const phoneRegex = /^\(\d{2}\) 9\d{4}-\d{4}$/
         if (!phoneRegex.test(phone)) {
-          message.textContent = "Por favor informe um Celular válido!"
+          message1.textContent = "Por favor informe um Celular válido!"
           return;
         }
 
         if (!yourState) {
-          message.textContent = "Por favor, selecione seu estado!"
+          message1.textContent = "Por favor, selecione seu estado!"
           return;
         }
       
         if (!age) {
-          message.textContent = "Por favor, uma faixa de idade!"
+          message1.textContent = "Por favor, uma faixa de idade!"
           return;
         }
 
         if (!howWeMet) {
-          message.textContent = "Por favor, informe como chegou até nós?"
+          message1.textContent = "Por favor, informe como chegou até nós?"
           return;
         }
 
         if (!positionLife) {
-          message.textContent = "Informe a área que precisa da sua atenção?";
+          message1.textContent = "Informe a área da sua vida precisa de mais atenção?";
           return;
         }
 
@@ -108,22 +114,44 @@ btnvideo.addEventListener("click",()=> {
           body: JSON.stringify(data) // Convert the data object to a JSON string
         })
           .then(result => {
-            console.log('Data submitted successfully:', result);
-            myform.reset()
-            message.style.color = "green"
-            message.style.fontSize = "18px"
-            message.textContent = "Parabens!! " + firstName + " sua apostila esta esperando por você no email, " +  email + " !!"
 
-          })
+            if(result.status === 200){
+              myform.reset()
+              agreeNotify.checked = false
+              btnvideo.disabled = true
+              message1.style.color = "green"
+              message1.style.fontSize = "18px"
+              message2.style.color = "green"
+              message2.style.fontSize = "18px"
+              message1.textContent = "Parabens!! " + firstName + " sua apostila esta esperando por você em, " +  email + "!"
+              message2.textContent = "Redirecionando em 10 segundos..."
+              setTimeout(()=> {
+                location.reload()// Replace with your home page URL
+              }, 10000);
+              return
+            }
+
+            if(result.status === 201){
+              message1.textContent = "Este email já participou desta pesquisa, por favor utilize outro email!"
+              myform.reset()
+              agreeNotify.checked = false
+              btnvideo.disabled = true
+              return
+            }
+
+
+            if(result.status === 400){
+              message1.textContent = "Erro na tentativa de inserção dos dados!"
+              return
+            }
+         })
+
           .catch(error => {
             console.error('Error submitting data:', error);
-
+            message1.textContent = "This is issue with the server. Please try again later."
           });
-         
       break
-
        } 
-
     })
 
   agreeNotify.addEventListener("change",()=> {
@@ -144,9 +172,8 @@ async function fetchStates(url) {
         let option = document.createElement("option");
         option.value = item.nome
         option.textContent = item.nome  // Assuming each item has an 'id'
-        yourState.appendChild(option);
-      
-    }) .catch(error => alert("Erro ao carregar o campo estados: ", error));
+        yourState.appendChild(option)
+    })
 } 
 
 function mascara(o,f){
