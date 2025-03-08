@@ -1,6 +1,6 @@
 const app = require('./public/express_app')
+const port = 3000
 
-
-app.listen(3000, () => {
-    console.log('Node Server is running...')
+app.listen(port, () => {
+    console.log('Node Server is running on port...' + port)
 }) 

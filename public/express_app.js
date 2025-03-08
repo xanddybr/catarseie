@@ -1,6 +1,8 @@
 const express = require('express')
 const {engine} = require('express-handlebars')
 const mysqlCommand = require('./mysql_conn')
+const e = require('express')
+const { exit } = require('process')
 
 const app = express()
 app.use(express.json())
@@ -21,19 +23,45 @@ app.set('views', './views')
     })
 
     app.post('/submit', (req, res) => { 
-       const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife } = req.body
-       /*const sqlinsert = "INSERT INTO person VALUES (null,'"+ req.body.fristName +"', '"+ req.body.lastName +"', '"+ req.body.phone +"', '"+ req.body.email +"', null, 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ req.body.state +"' ,  '"+ req.body.age +"', '"+ req.body.howWeMet +"', '"+ req.body.positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))";
-       const query = 'INSERT INTO users (firstName, lastName, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-       db.query(sqlinsert, [firstName, lastName, phone, email, yourState, age, howWeMet, positionLife], (err, res) => {
-         if (err) {
-           console.error('Error inserting data into the database:', err);
-           return res.status(500).json({ message: 'Error inserting data into the database' });
-         }
-         res.status(200).json({ message: 'Form submitted successfully!' });
-       }); */
-      res.status(200).json("Seus dados chegaram aqui com sucesso! viu..");
-      res.end()
+       const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
+       const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourState +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))";
+       mysqlCommand.query(sqlinsert, (err, result) => {
+            if(err) {
+                console.log(err)
+                res.send('Erro ao inserir dados... ' + err)
+                }
+                console.log(result)
+                res.status(200).send("Data inserted successfully... ")
+                res.end()
+        })
     })
+
+    app.post('/submit2', (req, res) => { 
+        const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
+        const sqlSelect = "SELECT DISTINCT email,namePoll FROM fly_pigeon.person INNER JOIN fly_pigeon.poll ON namePoll = 'Nanny History'"
+        mysqlCommand.query(sqlSelect, (err, result) => {
+             if(err) {
+                 console.log(err)
+                 res.send('Erro ao inserir dados... ' + err)
+                 return;
+                 }
+                 
+                 for(let i = 0; i < result.length; i++){
+                    console.log(result[i].email)
+
+                    if(!result[i].email){
+                        console.log("Email não encontrado ", email)
+                        return;
+                    }
+
+                    if(result[i].email == email){
+                        console.log("Email já cadastrado ", result[i].email)
+                        return;
+                    }
+                 }
+         })
+
+     })
 
     app.delete('/delete/:id', (req, res) => {
         const  id = req.params.id

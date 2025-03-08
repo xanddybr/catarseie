@@ -2,7 +2,7 @@ const btnvideo = document.getElementById("btnvideo")
 const catchLead = document.getElementById("catchLead")
 const myHistory = document.getElementById("myHistory")
 const mainTitle = document.getElementById("mainTitle")
-const notifyAgre = document.getElementById("notifyAgre")
+const agreeNotify = document.getElementById("agreeNotify")
 const video = document.getElementById("video")
 const myform = document.getElementById("myform")
 
@@ -37,7 +37,6 @@ btnvideo.addEventListener("click",()=> {
       const age = document.getElementById('age').value
       const howWeMet = document.getElementById('howWeMet').value
       const positionLife = document.getElementById('positionLife').value
-      const agreeNotify = document.getElementById('agreeNotify').value
       const message = document.getElementById('message')
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const hasValidDomain = email.split('@')[1]?.includes('.')
@@ -92,30 +91,33 @@ btnvideo.addEventListener("click",()=> {
       const data = {
         firstName: firstName,
         lastName: lastName,
-        phone: phone, // Example: 15-digit phone number
-        email: email
+        phone: phone, 
+        email: email,
+        age: age,
+        howWeMet: howWeMet, 
+        positionLife: positionLife,
+        yourState: yourState,
+        agreeNotify: agreeNotify.value
       };
         
-      fetch('/submit', {
+      fetch('/submit2', {
           method: 'POST', // Use POST method
           headers: {
-            'Content-Type': 'application/json' // Specify JSON format
+            'Content-Type': 'application/json' // Specify JSON  format
           },
           body: JSON.stringify(data) // Convert the data object to a JSON string
         })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); 
-          })
           .then(result => {
             console.log('Data submitted successfully:', result);
-           
+            myform.reset()
+            message.style.color = "green"
+            message.style.fontSize = "18px"
+            message.textContent = "Parabens!! " + firstName + " sua apostila esta esperando por você no email, " +  email + " !!"
+
           })
           .catch(error => {
             console.error('Error submitting data:', error);
-            
+
           });
          
       break
