@@ -1,6 +1,7 @@
 const express = require('express')
 const {engine} = require('express-handlebars')
 const mysqlCommand = require('./mysql_conn')
+const sendm = require('./nodeMailer')
 
 
 
@@ -22,7 +23,7 @@ app.set('views', './views')
         res.render('form')
     })
 
-    app.post('/submit', (req, res) => { 
+  /*  app.post('/submit', (req, res) => { 
        const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
        const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourState +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))";
        mysqlCommand.query(sqlinsert, (err, result) => {
@@ -34,7 +35,7 @@ app.set('views', './views')
                 }
                 
         })
-    })
+    })*/
 
     app.post('/submit2', (req, res) => { 
         const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
@@ -58,6 +59,7 @@ app.set('views', './views')
                             res.status(400).json({Message:"Error to try insert data in database "} + err)
                             } else {
                               res.status(200).json({message:"Dados inseridos com sucesso... " + result})
+                              //sendm(email, firstName)
                               res.end()  
                             }
                      })    

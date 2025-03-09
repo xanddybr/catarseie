@@ -15,6 +15,12 @@ function onloadInit() {
     fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
 }
 
+function removeEntriesMask(phone) {
+  // Use a regular expression to remove all non-numeric characters
+  const cleanedString = phone.replace(/[^\d]/g, '');
+  return cleanedString;
+}
+
 btnvideo.addEventListener("click",()=> {
   switch (btnvideo.value) { 
     case "Quero Minha Apostila Grátis":
@@ -97,7 +103,7 @@ btnvideo.addEventListener("click",()=> {
       const data = {
         firstName: firstName,
         lastName: lastName,
-        phone: phone, 
+        phone: removeEntriesMask(phone), 
         email: email,
         age: age,
         howWeMet: howWeMet, 
@@ -132,7 +138,7 @@ btnvideo.addEventListener("click",()=> {
             }
 
             if(result.status === 201){
-              message1.textContent = "Este email já participou desta pesquisa, por favor utilize outro email!"
+              message1.textContent = "E-mail já cadastrado para receber notificações, por favor utilize outro e-mail válido!"
               myform.reset()
               agreeNotify.checked = false
               btnvideo.disabled = true
