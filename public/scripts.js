@@ -6,7 +6,6 @@ const agreeNotify = document.getElementById("agreeNotify")
 const video = document.getElementById("video")
 const myform = document.getElementById("myform")
 
-
 function onloadInit() {
     catchLead.style.display = "none"
     video.style.display = "block"
@@ -15,14 +14,14 @@ function onloadInit() {
     fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
 }
 
-function removeEntriesMask(phone) {
-  // Use a regular expression to remove all non-numeric characters
-  const cleanedString = phone.replace(/[^\d]/g, '');
-  return cleanedString;
+function removeEntrieMask(phone) {
+  const cleaned = phone.replace(/[^\d]/g, '');
+  return cleaned;
 }
 
 btnvideo.addEventListener("click",()=> {
-  switch (btnvideo.value) { 
+  const valueButton = btnvideo.value
+  switch (valueButton) { 
     case "Quero Minha Apostila Grátis":
       video.pause()
       video.style.display = "none"
@@ -31,10 +30,8 @@ btnvideo.addEventListener("click",()=> {
       catchLead.style.display = "block"
       myHistory.style.display = "none"  
       mainTitle.textContent = "PREENCHA OS CAMPOS PARA OBTER SUA APOSTILA GRATUITA!"
-      
       break
     case "Baixar Apostila":
-      
       const firstName = document.getElementById('firstName').value.trim()
       const lastName = document.getElementById('lastName').value.trim()
       const phone = document.getElementById('phone').value.trim()
@@ -48,15 +45,13 @@ btnvideo.addEventListener("click",()=> {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const hasValidDomain = email.split('@')[1]?.includes('.')
       const hasNoIllegalChars = /^[a-zA-Z0-9.@_-]+$/.test(email)
+      message1.style.color = "red"
 
       setTimeout(()=> {
          message1.textContent = "";
          message2.textContent = "";        
       }, 10000);
-
     
-      message1.style.color = "red"
-
         if (!firstName || firstName.length < 3) {
          message1.textContent = "Seu nome precisa ter pelo menos 3 caracteres"
          
@@ -103,7 +98,7 @@ btnvideo.addEventListener("click",()=> {
       const data = {
         firstName: firstName,
         lastName: lastName,
-        phone: removeEntriesMask(phone), 
+        phone: removeEntrieMask(phone), 
         email: email,
         age: age,
         howWeMet: howWeMet, 

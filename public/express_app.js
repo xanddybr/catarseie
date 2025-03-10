@@ -3,8 +3,6 @@ const {engine} = require('express-handlebars')
 const mysqlCommand = require('./mysql_conn')
 const sendm = require('./nodeMailer')
 
-
-
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -59,8 +57,8 @@ app.set('views', './views')
                             res.status(400).json({Message:"Error to try insert data in database "} + err)
                             } else {
                               res.status(200).json({message:"Dados inseridos com sucesso... " + result})
-                              //sendm(email, firstName)
-                              res.end()  
+                              sendm(email, firstName)
+                              res.end()
                             }
                      })    
                 }
@@ -78,6 +76,11 @@ app.set('views', './views')
                 res.status(200).send("Dados deletados com sucesso... " + id)
                 res.end()
         })
+    })
+
+    app.get('/unsubscribe', (req, res) => {
+        res.send("Você foi desinscrito com sucesso!")
+        res.end()
     })
 
     // mysqlCommand.query("DELETE FROM person WHERE idPerson = " + req.params.id), (err, result) => {})
