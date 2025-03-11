@@ -4,7 +4,7 @@ CREATE TABLE `typePerson` (
   `tpPerson` varchar(100) DEFAULT NULL,
   `create_at` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`idType`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `person` (
   `idPerson` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -21,7 +21,7 @@ CREATE TABLE `person` (
   PRIMARY KEY (`idPerson`),
   KEY `idType_fgk` (`idType`),
   CONSTRAINT `idType_fgk` FOREIGN KEY (`idType`) REFERENCES `typePerson` (`idType`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `poll` (
   `idPerson` int NOT NULL AUTO_INCREMENT,
@@ -34,7 +34,7 @@ CREATE TABLE `poll` (
   PRIMARY KEY (`idPerson`),
   KEY `idPerson_fgk` (`idPerson`),
   CONSTRAINT `idPerson_fgk` FOREIGN KEY (`idPerson`) REFERENCES `person` (`idPerson`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `mailsModel` (
   `idMail` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -44,7 +44,7 @@ CREATE TABLE `mailsModel` (
   `path_attachment` varchar(100) DEFAULT NULL,
   `create_at` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`idMail`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `sendedMails` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -57,4 +57,4 @@ CREATE TABLE `sendedMails` (
   PRIMARY KEY (`id`),
   KEY `idMail_fgk` (`idMailModel`),
   CONSTRAINT `idMail_fgk` FOREIGN KEY (`idMailModel`) REFERENCES `mailsModel` (`idMail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
