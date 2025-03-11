@@ -6,17 +6,27 @@ const agreeNotify = document.getElementById("agreeNotify")
 const video = document.getElementById("video")
 const myform = document.getElementById("myform")
 
+document.getElementById('phone').addEventListener('keypress', function(event) {
+  const charCode = event.which || event.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    event.preventDefault();
+    return false;
+  }
+
+  const phoneNumber = this.value;
+  if (phoneNumber.length >= 11) {
+    event.preventDefault();
+    return false;
+  }
+});
+
 function onloadInit() {
     catchLead.style.display = "none"
     video.style.display = "block"
     btnvideo.value = "Quero Minha Apostila Grátis"
     mainTitle.textContent = "PREENCHA OS CAMPOS PARA OBTER SUA APOSTILA GRATUITA!"
-    fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
-}
-
-function removeEntrieMask(phone) {
-  const cleaned = phone.replace(/[^\d]/g, '');
-  return cleaned;
+    fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados/rj/municipios')
+    //fetchStates('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
 }
 
 btnvideo.addEventListener("click",()=> {
@@ -53,52 +63,52 @@ btnvideo.addEventListener("click",()=> {
       }, 10000);
     
         if (!firstName || firstName.length < 3) {
-         message1.textContent = "Seu nome precisa ter pelo menos 3 caracteres"
+         message1.textContent = "Seu NOME precisa ter pelo menos 3 caracteres"
          
           return;
         }
 
         if (!lastName || lastName.length < 5) {
-          message1.textContent = "Seu sobre nome precisa ter pelo menos 5 caracteres"
+          message1.textContent = "Seu SOBRE NOME precisa ter pelo menos 5 caracteres"
          
           return;
         }
         
         if (!email || !emailRegex.test(email) || !hasValidDomain || !hasNoIllegalChars) {
-          message1.textContent = "Por favor informe um E-mail válido!"
+          message1.textContent = "Por favor informe um E-MAIL válido!"
           return;
         }
       
-        const phoneRegex = /^\(\d{2}\) 9\d{4}-\d{4}$/
-        if (!phoneRegex.test(phone)) {
-          message1.textContent = "Por favor informe um Celular válido!"
+        
+        if (phone.length < 11 ) {
+          message1.textContent = "Por favor informe um CELULAR válido com 11 digitos!"
           return;
         }
 
         if (!yourState) {
-          message1.textContent = "Por favor, selecione seu estado!"
+          message1.textContent = "Por favor, selecione sua CIDADE!"
           return;
         }
       
         if (!age) {
-          message1.textContent = "Por favor, uma faixa de idade!"
+          message1.textContent = "Por favor, uma faixa de IDADE!"
           return;
         }
 
         if (!howWeMet) {
-          message1.textContent = "Por favor, informe como chegou até nós?"
+          message1.textContent = "Por favor, informe como CHEGOU ATÉ NOS?"
           return;
         }
 
         if (!positionLife) {
-          message1.textContent = "Informe a área da sua vida precisa de mais atenção?";
+          message1.textContent = "Informe a área da sua vida precisa de mais ATENÇÃO?";
           return;
         }
 
       const data = {
         firstName: firstName,
         lastName: lastName,
-        phone: removeEntrieMask(phone), 
+        phone: phone, 
         email: email,
         age: age,
         howWeMet: howWeMet, 
@@ -164,35 +174,18 @@ btnvideo.addEventListener("click",()=> {
 })
 
 async function fetchStates(url) {
-    const response = await fetch(url)
-    const data = await response.json()
-    yourState.innerHTML = `<option value="">Informe seu estado?</option>`
-    let dataset = data
-    dataset.sort((a, b) => a.nome.localeCompare(b.nome))
-    dataset.forEach(item => {
+        const response = await fetch(url)
+        const data = await response.json()
+        yourState.innerHTML = `<option value="">Informe sua cidade?</option>`
+        let dataset = data
+        dataset.sort((a, b) => a.nome.localeCompare(b.nome))
+        dataset.forEach(item => {
         let option = document.createElement("option");
         option.value = item.nome
         option.textContent = item.nome  // Assuming each item has an 'id'
         yourState.appendChild(option)
     })
 } 
-
-function mascara(o,f){
-    v_obj=o
-    v_fun=f
-    setTimeout("execmascara()",1)
-}
-
-function execmascara(){
-    v_obj.value=v_fun(v_obj.value)
-}
-
-function telefone(v){
-    v=v.replace(/\D/g,"")                 //Remove tudo o que não é dígito
-    v=v.replace(/^(\d\d)(\d)/g,"($1) $2") //Coloca parênteses em volta dos dois primeiros dígitos
-    v=v.replace(/(\d{5})(\d)/,"$1-$2")    //Coloca hífen entre o quarto e o quinto dígitos
-    return v
-}
 
   onloadInit()
 
