@@ -85,6 +85,8 @@ btnvideo.addEventListener("click",()=> {
           return;
         }
 
+        console.log(phone)
+
         if (!yourState) {
           message1.textContent = "Por favor, selecione sua CIDADE!"
           return;
@@ -142,6 +144,7 @@ btnvideo.addEventListener("click",()=> {
               return
             }
 
+
             if(result.status === 201){
               message1.textContent = "E-mail já cadastrado para receber notificações, por favor utilize outro e-mail válido!"
               myform.reset()
@@ -187,6 +190,6 @@ async function fetchStates(url) {
     })
 } 
 
-  onloadInit()
+onloadInit()
 
 

@@ -30,8 +30,8 @@
                 <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="fristName" id="firstName" placeholder="Nome"></div>
                 <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="lastName" id="lastName" placeholder="Ultimo nome"></div>
         </div>
-              <div class="mb-2"><input type="text" class="form-control" name="email" id="email" placeholder="Informe seu melhor e-mail"></div>
-               <div class="mb-2"><input class="form-control" name="phone" id="phone" maxlength="15" placeholder="Telefone com DDD tudo junto ex: 21988885555" type="text" ></div>
+              <div class="mb-2"><input class="form-control" type="email"  name="email" id="email" placeholder="Informe seu melhor e-mail"></div>
+               <div class="mb-2"><input class="form-control" name="phone" id="phone" maxlength="15" placeholder="Telefone, só números ex: 21988885555" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '')"></div>
                 <div class="mb-2">
                 <select class="form-control" id="yourState" name="yourState">
                 </select>
@@ -41,9 +41,9 @@
                       <option selected value="">Em qual faixa de idade você se encontra?</option>
                       <option value="15 á 30">15 á 30</option>
                       <option value="30 á 45">30 á 45</option>
-                      <option value="60 á 75">60 á 75</option>
-                      <option value="75 á 90">75 á 90</option>
-                      <option value="mais de 90">mais de 90</option>
+                      <option value="45 á 60">45 á 60</option>
+                      <option value="60 á 85">75 á 90</option>
+                      <option value="acima de 85">acima de 85</option>
                   </select>
                 </div>
                 <div class="mb-2">
