@@ -2,6 +2,7 @@ const express = require('express')
 const {engine} = require('express-handlebars')
 const mysqlCommand = require('./mysql_conn')
 const sendm = require('./nodeMailer')
+const getMyTimeZone = require('./myTimeStamp')
 
 const app = express()
 app.use(express.json())
@@ -21,20 +22,6 @@ app.set('views', './views')
         res.render('form')
     })
 
-  /*  app.post('/submit', (req, res) => { 
-       const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
-       const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourState +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))";
-       mysqlCommand.query(sqlinsert, (err, result) => {
-            if(err) {
-                res.send('Erro ao inserir dados... ' + err)
-                } else{
-                   res.status(200).json({message:"this is find in db", email})
-                   res.end() 
-                }
-                
-        })
-    })*/
-
     app.post('/submit2', (req, res) => { 
         const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
         const sqlSelect = "SELECT DISTINCT email,namePoll FROM fly_pigeon.person, fly_pigeon.poll where namePoll = 'Nanny History' and  email = '"+ email +"'";
@@ -51,7 +38,7 @@ app.set('views', './views')
 
                 } else {
 
-                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourState +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'))";
+                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ getMyTimeZone() +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourState +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ getMyTimeZone() +"')";
                     mysqlCommand.query(sqlinsert, (err, result) => {
                         if(err) {
                             res.status(400).json({Message:"Error to try insert data in database "} + err)

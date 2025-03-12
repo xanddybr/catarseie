@@ -7,7 +7,9 @@ function getMyTimeZone(){
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    return console.log(`${hours}:${minutes}:${seconds} ${day}/${month}/${year}`)
+
+    return hours +":"+ minutes +":"+ seconds + " " + day+"/"+month+"/"+year;
   }
 
-module.exports = getMyTimeZone
+
+module.exports = getMyTimeZone;

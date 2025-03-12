@@ -85,8 +85,6 @@ btnvideo.addEventListener("click",()=> {
           return;
         }
 
-        console.log(phone)
-
         if (!yourState) {
           message1.textContent = "Por favor, selecione sua CIDADE!"
           return;
