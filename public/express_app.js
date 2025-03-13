@@ -2,9 +2,12 @@ const express = require('express')
 const {engine} = require('express-handlebars')
 const mysqlCommand = require('./mysql_conn')
 const sendm = require('./nodeMailer')
-const getMyTimeZone = require('./myTimeStamp')
+const moment = require('moment')
 
 const app = express()
+const now = moment()
+const date = now.format('HH:mm:ss DD/MM/YYYY')
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -15,6 +18,8 @@ app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'))
 app.use('/css', express.static('./css'))
 app.set('view engine', 'handlebars')
 app.set('views', './views')
+
+console.log(date)
 
         /* sqlinsert = "INSERT INTO person VALUES (null, 'Paulo', 'Mendes', '2124986870', 'luiza@gmail.com', md5('alex@2024'), 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'first poll', '15 a 30', 'financeira', 'instagram', 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'));" */
 
@@ -38,7 +43,7 @@ app.set('views', './views')
 
                 } else {
 
-                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ getMyTimeZone() +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ getMyTimeZone() +"')";
+                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ date +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ date +"')";
                     mysqlCommand.query(sqlinsert, (err, result) => {
                         if(err) {
                             res.status(400).json({Message:"Error to try insert data in database "} + err)
@@ -71,5 +76,5 @@ app.set('views', './views')
     })
 
     // mysqlCommand.query("DELETE FROM person WHERE idPerson = " + req.params.id), (err, result) => {})
-
+    
     module.exports = app 
