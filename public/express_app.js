@@ -23,7 +23,7 @@ app.set('views', './views')
     })
 
     app.post('/submit2', (req, res) => { 
-        const { firstName, lastName, phone, email, yourState, age, howWeMet, positionLife, agreeNotify } = req.body
+        const { firstName, lastName, phone, email, yourCity, age, howWeMet, positionLife, agreeNotify } = req.body
         const sqlSelect = "SELECT DISTINCT email,namePoll FROM fly_pigeon.person, fly_pigeon.poll where namePoll = 'Nanny History' and  email = '"+ email +"'";
         mysqlCommand.query(sqlSelect, (err, result) => {
             if(err) {   
@@ -38,13 +38,13 @@ app.set('views', './views')
 
                 } else {
 
-                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ getMyTimeZone() +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourState +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ getMyTimeZone() +"')";
+                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ getMyTimeZone() +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ getMyTimeZone() +"')";
                     mysqlCommand.query(sqlinsert, (err, result) => {
                         if(err) {
                             res.status(400).json({Message:"Error to try insert data in database "} + err)
                             } else {
                               res.status(200).json({message:"Dados inseridos com sucesso... " + result})
-                              sendm(email, firstName)
+                              //sendm(email, firstName)
                               res.end()
                             }
                      })    

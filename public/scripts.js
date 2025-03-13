@@ -46,7 +46,7 @@ btnvideo.addEventListener("click",()=> {
       const lastName = document.getElementById('lastName').value.trim()
       const phone = document.getElementById('phone').value.trim()
       const email = document.getElementById('email').value.trim()
-      const yourState = document.getElementById('yourState').value
+      const yourCity = document.getElementById('yourCity').value
       const age = document.getElementById('age').value
       const howWeMet = document.getElementById('howWeMet').value
       const positionLife = document.getElementById('positionLife').value
@@ -85,7 +85,7 @@ btnvideo.addEventListener("click",()=> {
           return;
         }
 
-        if (!yourState) {
+        if (!yourCity) {
           message1.textContent = "Por favor, selecione sua CIDADE!"
           return;
         }
@@ -113,7 +113,7 @@ btnvideo.addEventListener("click",()=> {
         age: age,
         howWeMet: howWeMet, 
         positionLife: positionLife,
-        yourState: yourState,
+        yourCity: yourCity,
         agreeNotify: agreeNotify.value
       };
         
@@ -177,14 +177,14 @@ btnvideo.addEventListener("click",()=> {
 async function fetchStates(url) {
         const response = await fetch(url)
         const data = await response.json()
-        yourState.innerHTML = `<option value="">Informe sua cidade?</option>`
+        yourCity.innerHTML = `<option value="">Informe sua cidade?</option>`
         let dataset = data
         dataset.sort((a, b) => a.nome.localeCompare(b.nome))
         dataset.forEach(item => {
         let option = document.createElement("option");
         option.value = item.nome
         option.textContent = item.nome  // Assuming each item has an 'id'
-        yourState.appendChild(option)
+        yourCity.appendChild(option)
     })
 } 
 

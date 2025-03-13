@@ -26,7 +26,7 @@ CREATE TABLE `person` (
 CREATE TABLE `poll` (
   `idPerson` int NOT NULL AUTO_INCREMENT,
   `namePoll` varchar(100) DEFAULT NULL,
-  `yourState` varchar(100) DEFAULT NULL,
+  `yourCity` varchar(100) DEFAULT NULL,
   `rangeAge` varchar(50) DEFAULT NULL,
   `positionLife` varchar(100) DEFAULT NULL,
   `howWeMet` varchar(100) DEFAULT NULL,
