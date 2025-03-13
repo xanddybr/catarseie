@@ -2,11 +2,11 @@ const express = require('express')
 const {engine} = require('express-handlebars')
 const mysqlCommand = require('./mysql_conn')
 const sendm = require('./nodeMailer')
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 const app = express()
-const now = moment()
-const date = now.format('HH:mm:ss DD/MM/YYYY')
+const date = moment.tz('America/Sao_Paulo');
+const dateFormat = date.format('HH:mm:ss DD/MM/YYYY')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -43,13 +43,13 @@ console.log(date)
 
                 } else {
 
-                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ date +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ date +"')";
+                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ dateFormat +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ dateFormat +"')";
                     mysqlCommand.query(sqlinsert, (err, result) => {
                         if(err) {
                             res.status(400).json({Message:"Error to try insert data in database "} + err)
                             } else {
                               res.status(200).json({message:"Dados inseridos com sucesso... " + result})
-                              //sendm(email, firstName)
+                              sendm(email, firstName)
                               res.end()
                             }
                      })    
