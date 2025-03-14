@@ -81,7 +81,7 @@ btnvideo.addEventListener("click",()=> {
       
         
         if (phone.length < 11 ) {
-          message1.textContent = "Por favor informe um CELULAR válido com 11 digitos!"
+          message1.textContent = "Por favor informe um CELULAR válido com 11 digitos! "
           return;
         }
 
@@ -105,19 +105,18 @@ btnvideo.addEventListener("click",()=> {
           return;
         }
 
-      const data = {
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone, 
-        email: email,
-        age: age,
-        howWeMet: howWeMet, 
-        positionLife: positionLife,
-        yourCity: yourCity,
-        agreeNotify: agreeNotify.value
-      };
-        
-      fetch('/submit2', {
+      const data = {};
+      data.firstName = firstName.toLowerCase()
+      data.lastName = lastName.toLowerCase()
+      data.phone = phone.toLowerCase()
+      data.email = email.toLowerCase()
+      data.yourCity = yourCity.toLowerCase()
+      data.age = age
+      data.howWeMet = howWeMet.toLowerCase()
+      data.positionLife = positionLife.toLowerCase()
+      data.agreeNotify = agreeNotify.value
+
+      fetch('/submit', {
           method: 'POST', // Use POST method
           headers: {
             'Content-Type': 'application/json' // Specify JSON  format
@@ -144,23 +143,21 @@ btnvideo.addEventListener("click",()=> {
 
 
             if(result.status === 201){
-              message1.textContent = "E-mail já cadastrado para receber notificações, por favor utilize outro e-mail válido!"
+              message1.textContent = "Você já esta inscrito em nossa lista, aguarde logo receberá nossas novidades!"
               myform.reset()
               agreeNotify.checked = false
               btnvideo.disabled = true
               return
             }
 
-
             if(result.status === 400){
-              message1.textContent = "Erro na tentativa de inserção dos dados!"
+              message1.textContent = "Erro no servidor, ao inserir os dados no banco!"
               return
             }
          })
 
           .catch(error => {
-            console.error('Error submitting data:', error);
-            message1.textContent = "This is issue with the server. Please try again later."
+            message1.textContent = "Error, servidor não responde, tente mais tarde!", error
           });
       break
        } 

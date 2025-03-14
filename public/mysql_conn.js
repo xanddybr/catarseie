@@ -11,9 +11,12 @@ const mysqlCommand = mysql.createConnection ({
 
 mysqlCommand.connect((err)=>{
     if(err) {
-        throw err = new Error("Error in connecting to mysql")
+        console.log("Error on connect mysql..." + err)
+        return;
+    } else {
+        console.log("Mysql connected..")
     }
-    console.log("Mysql connected..")
+    
 })
 
 module.exports = mysqlCommand

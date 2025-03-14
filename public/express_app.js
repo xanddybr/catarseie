@@ -27,34 +27,38 @@ console.log(date)
         res.render('form')
     })
 
-    app.post('/submit2', (req, res) => { 
+    app.post('/submit', (req, res) => { 
         const { firstName, lastName, phone, email, yourCity, age, howWeMet, positionLife, agreeNotify } = req.body
-        const sqlSelect = "SELECT DISTINCT email,namePoll FROM fly_pigeon.person, fly_pigeon.poll where namePoll = 'Nanny History' and  email = '"+ email +"'";
+        const sqlSelect = "select email, agreeNotify  from fly_pigeon.person where person.agreeNotify = 1 and email = '"+ email +"'";
         mysqlCommand.query(sqlSelect, (err, result) => {
             if(err) {   
-                res.status(400).json({Message:"Error to try find up data in database "} + err)
+                res.status(400).send("Error na busca pelos dados " + err)
                 res.end()
+                return
                 } 
 
                 if (result.length > 0) {
-                    res.status(201).json({message:"Already just in database..." + result[0].email})
+                    res.status(201).send("Você já esta inscrito em nossa lista, aguarde logo receberá nossas novidades!")
                     res.end()
                     return;
-
                 } else {
-
-                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 1, "+ agreeNotify +", null, '"+ dateFormat +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'Nanny History', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ dateFormat +"')";
+                    const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 0, "+ agreeNotify +", null, '"+ dateFormat +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'nanny history', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ dateFormat +"')";
                     mysqlCommand.query(sqlinsert, (err, result) => {
+                         
                         if(err) {
-                            res.status(400).json({Message:"Error to try insert data in database "} + err)
+                            res.status(400).send("Erro na inserção dos dados " + err)
+                            res.end()
+                            return
                             } else {
-                              res.status(200).json({message:"Dados inseridos com sucesso... " + result})
+                              res.status(200).send("Dados inseridos com sucesso")
                               sendm(email, firstName)
                               res.end()
-                            }
-                     })    
+                            } 
+                     }) 
                 }
-        })
+
+            }) 
+        
     })
 
     app.delete('/delete/:id', (req, res) => {
@@ -63,16 +67,55 @@ console.log(date)
         mysqlCommand.query(sql, (err, result) => {
             if(err) {
                 console.log(err)
-                res.send('Erro ao deletar dados... ' + err)
+                res.status(401).send('Erro on execute query delete... ' + err)
                 }
-                res.status(200).send("Dados deletados com sucesso... " + id)
-                res.end()
+                if(result.affectedRows == 0) {
+                    res.status(400).send("Not exist more data for delete with id.. " + req.params.id)
+                    res.end()
+                    return;
+                }
+                const data = result[0]
+                res.status(200).send("Record with id " + req.params.id + " deleted with success!")
         })
     })
 
-    app.get('/unsubscribe', (req, res) => {
-        res.send("Você foi desinscrito com sucesso!")
-        res.end()
+    app.get('/unsubscribe/:email', (req, res) => {
+        const sqlupdate = "Delete from person where email = '"+ req.params.email +"'"
+        mysqlCommand.query(sqlupdate, (err, result) => {
+            if(err) {
+                console.log(err)
+                res.status(401).send('Erro ao tentar cancelar inscrição... ' + err)
+                res.end()
+                }
+                if(result.affectedRows){
+                    res.status(200).send("<h4>Sua inscrição foi excluida com sucesso!, apartir deste momento você não receberá mais nossas novidades</h4>") 
+                    res.end()
+                    return;
+                }
+        })
+    })
+
+    app.get('/get', (req, res) => {
+        const sql = "SELECT * FROM person"
+        mysqlCommand.query(sql, (err, result) => {
+            if(err) {
+                console.log(err)
+                res.send('Erro of query select on database mysql... ' + err)
+                res.end()
+                }
+
+                const data = result[0]
+
+                if(result.length == 0) {
+                    res.status(400).send("No such record found on database... ")
+                    res.end()
+                    return;
+                } else {
+                    res.send(data.idPerson)
+                    res.end()
+                }
+                
+        })
     })
 
     // mysqlCommand.query("DELETE FROM person WHERE idPerson = " + req.params.id), (err, result) => {})
