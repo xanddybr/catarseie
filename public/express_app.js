@@ -1,8 +1,9 @@
 const express = require('express')
 const {engine} = require('express-handlebars')
-const mysqlCommand = require('./mysql_conn')
 const sendm = require('./nodeMailer')
 const moment = require('moment-timezone')
+const mysqlCommand = require('./mysql_conn')
+
 
 const app = express()
 const date = moment.tz('America/Sao_Paulo');
@@ -19,32 +20,26 @@ app.use('/css', express.static('./css'))
 app.set('view engine', 'handlebars')
 app.set('views', './views')
 
-console.log(date)
-
-        /* sqlinsert = "INSERT INTO person VALUES (null, 'Paulo', 'Mendes', '2124986870', 'luiza@gmail.com', md5('alex@2024'), 3, 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y')); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'first poll', '15 a 30', 'financeira', 'instagram', 1, DATE_FORMAT(NOW(), '%H:%i:%s %d/%m/%Y'));" */
-
     app.get('/', (req, res) => {
         res.render('form')
     })
 
     app.post('/submit', (req, res) => { 
         const { firstName, lastName, phone, email, yourCity, age, howWeMet, positionLife, agreeNotify } = req.body
-        const sqlSelect = "select email, agreeNotify  from fly_pigeon.person where person.agreeNotify = 1 and email = '"+ email +"'";
+        const sqlSelect = "select email from fly_pigeon.person where email = '"+ email +"'";
         mysqlCommand.query(sqlSelect, (err, result) => {
             if(err) {   
                 res.status(400).send("Error na busca pelos dados " + err)
                 res.end()
                 return
                 } 
-
-                if (result.length > 0) {
+                if (result.length >= 1) {
                     res.status(201).send("Você já esta inscrito em nossa lista, aguarde logo receberá nossas novidades!")
                     res.end()
                     return;
                 } else {
                     const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 0, "+ agreeNotify +", null, '"+ dateFormat +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'nanny history', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ dateFormat +"')";
                     mysqlCommand.query(sqlinsert, (err, result) => {
-                         
                         if(err) {
                             res.status(400).send("Erro na inserção dos dados " + err)
                             res.end()
@@ -66,31 +61,38 @@ console.log(date)
         const sql = "DELETE FROM person WHERE idPerson in (" + id + ")"
         mysqlCommand.query(sql, (err, result) => {
             if(err) {
-                console.log(err)
-                res.status(401).send('Erro on execute query delete... ' + err)
-                }
-                if(result.affectedRows == 0) {
+                res.status(401).send('Record of number, ' + req.params.id + ' deleted with success!')
+                res.end()
+                return;
+                } else {
+                    if(result.affectedRows == 0) {
                     res.status(400).send("Not exist more data for delete with id.. " + req.params.id)
                     res.end()
                     return;
                 }
-                const data = result[0]
+                    }
+              
                 res.status(200).send("Record with id " + req.params.id + " deleted with success!")
         })
     })
 
     app.get('/unsubscribe/:email', (req, res) => {
-        const sqlupdate = "Delete from person where email = '"+ req.params.email +"'"
-        mysqlCommand.query(sqlupdate, (err, result) => {
+        const sqldelete = "Delete from person where email = '"+ req.params.email +"'"
+        mysqlCommand.query(sqldelete, (err, result) => {
             if(err) {
                 console.log(err)
                 res.status(401).send('Erro ao tentar cancelar inscrição... ' + err)
                 res.end()
+                return;
                 }
-                if(result.affectedRows){
-                    res.status(200).send("<h4>Sua inscrição foi excluida com sucesso!, apartir deste momento você não receberá mais nossas novidades</h4>") 
+                if(!result.affectedRows){
+                    res.status(401).send("<h4>Sua inscrição já foi excluida de nossa lista com sucesso...</h4>") 
                     res.end()
                     return;
+                } else {
+                    res.status(200).send("<h4>Sua inscrição foi cancelada com sucesso...</h4>")
+                    res.end()
+                    return
                 }
         })
     })

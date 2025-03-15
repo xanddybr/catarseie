@@ -15,13 +15,13 @@ const transporter = nodemailer.createTransport({
 });
 
 function sendm(mailDestiny, name) {
-    
+    const treatedName = name.charAt(0).toUpperCase() + name.slice(1)
     const mailOptions = {
           from: 'Catarse I.E" <contato@catarseie.com.br>', // sender address
           to: mailDestiny, // list of receivers
           subject: "Treinamento Catarse I.E, Sua apostila brinde acaba de chegar!", // Subject line
           text: "", // plain text body
-          html: "<h1>Ola! " + name + " </h1><br><br><h3>Você acaba de receber em anexo o seu brinde, leia a com calma e atenção para conseguir aproveitar o máximo possivel deste maravilhoso conteudo, e começe hoje mesmo a dar os primeiros passos na sua tranformação pessoal!</h3> <br><br> <h4>Você também ficará antenado sobre a programação do Treinamento Catarse I.E e a abertua das turmas para a realização do nosso curso! </h4> <br><br><br><br> <div>Caso não queira mais receber nossos e-mails, click no link a seguir : <a href='http://localhost:3000/unsubscribe/"+ mailDestiny +"' target='_blank'><u><b>desinscrever-se</b></u><a/></div>", // html body
+          html: "<h1>Ola! " + treatedName + " </h1><br><br><h3>Você acaba de receber em anexo o seu brinde, leia a com calma e atenção para conseguir aproveitar o máximo possivel deste maravilhoso conteudo, e começe hoje mesmo a dar os primeiros passos na sua tranformação pessoal!</h3> <br><br> <h4>Você também ficará antenado sobre a programação do Treinamento Catarse I.E, não deixe de participar do nosso webnário em breve! </h4> <br><br><br><br> <div>Caso não queira mais receber nossos e-mails, click no link a seguir : <a href='catarseie.com.br/unsubscribe/"+ mailDestiny +"' target='_blank'><u><b>desinscrever-se</b></u><a/></div>", // html body
           attachments:  [{ filename: "catarseie_brinde.pdf", path: "./assets/catarseie_brinde.pdf" }]
     }
 
@@ -31,10 +31,8 @@ function sendm(mailDestiny, name) {
         const accp = info.accepted
         const rjct = info.rejected
         const msid = info.messageId
-    
     if(err){
-      console.log("Fail on try send mail... " + err)
-        const sqlinsert = "insert into sendedMails values ( null, null, null ,'"+ msid +"' ,'"+ accp +"' , '"+ rjct +"', '"+ partresp[0] +"','automatic','"+ dateFormat +"')";
+        const sqlinsert = "insert into sendedMails values (null, null,'"+ msid +"' ,'"+ accp +"' , '"+ rjct +"', "+ partresp[0] +", 'poll', 'automatic','"+ dateFormat +"')";
         mysqlCommand.query(sqlinsert, (err, result) => {
         if (err) {
           console.log("Fail in insert record...",err);
@@ -43,21 +41,17 @@ function sendm(mailDestiny, name) {
           console.log("Record inserted with sucess...");
         }
     })
-
       return
       } else {
-        
-
-        const sqlinsert = "insert into sendedMails values ( null, null, null ,'"+ msid +"' ,'"+ accp +"' , '"+ rjct +"', '"+ partresp[0] +"','automatic','"+ dateFormat +"')";
+        const sqlinsert = "insert into sendedMails values (null, null,'"+ msid +"' ,'"+ accp +"' , '"+ rjct +"', "+ partresp[0] +", 'poll', 'automatic','"+ dateFormat +"')";
         mysqlCommand.query(sqlinsert, (err, result) => {
         if (err) {
           console.log("Fail in insert record...",err);
           return
         } else {
-          console.log("Log send mail number...",result.insertId);
+          console.log("Log send mail number...");
         }
     })
-    
   }
  })
  console.log("Email sent with success...")

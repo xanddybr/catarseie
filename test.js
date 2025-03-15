@@ -1,4 +1,3 @@
+const mystring = "teste"
+console.log(mystring.charAt(0).toUpperCase() + mystring.slice(1))
 
-const hashmail = md5('xanddybr@gmal.com');
-
-console.log(hashmail)

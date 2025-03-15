@@ -133,8 +133,8 @@ btnvideo.addEventListener("click",()=> {
               message1.style.fontSize = "18px"
               message2.style.color = "green"
               message2.style.fontSize = "18px"
-              message1.textContent = "Parabens!! " + firstName + " sua apostila esta esperando por você em, " +  email + "!"
-              message2.textContent = "Redirecionando em 10 segundos..."
+              message1.textContent = "Parabens!! " + firstName + " inscrição realizada com sucesso!!"
+              message2.textContent = "Sua apostila foi enviada para o e-mail, " +  email + " !!"
               setTimeout(()=> {
                 location.reload()// Replace with your home page URL
               }, 10000);
@@ -151,7 +151,7 @@ btnvideo.addEventListener("click",()=> {
             }
 
             if(result.status === 400){
-              message1.textContent = "Erro no servidor, ao inserir os dados no banco!"
+              message1.textContent = "Ainda não existe resgistro no banco de dados"
               return
             }
          })
