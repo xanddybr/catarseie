@@ -29,24 +29,25 @@ app.set('views', './views')
         const sqlSelect = "select email from fly_pigeon.person where email = '"+ email +"'";
         mysqlCommand.query(sqlSelect, (err, result) => {
             if(err) {   
-                res.status(400).send("Error na busca pelos dados " + err)
+                res.status(401).send(err)
                 res.end()
                 return
                 } 
-                if (result.length >= 1) {
-                    res.status(201).send("Você já esta inscrito em nossa lista, aguarde logo receberá nossas novidades!")
+                if (result.length > 0) {
+                    res.status(201).send(err)
                     res.end()
                     return;
-                } else {
+                } 
+                if (result.length === 0) {
                     const sqlinsert = "INSERT INTO person VALUES (null,'"+ firstName +"', '"+ lastName +"', '"+ phone +"', '"+ email +"', null, 3, 0, "+ agreeNotify +", null, '"+ dateFormat +"'); SET @idPerson = LAST_INSERT_ID(); INSERT INTO poll VALUES (@idPerson, 'nanny history', '"+ yourCity +"' ,  '"+ age +"', '"+ howWeMet +"', '"+ positionLife + "', '"+ dateFormat +"')";
                     mysqlCommand.query(sqlinsert, (err, result) => {
                         if(err) {
-                            res.status(400).send("Erro na inserção dos dados " + err)
+                            res.status(400).send(err)
                             res.end()
                             return
                             } else {
-                              res.status(200).send("Dados inseridos com sucesso")
                               sendm(email, firstName)
+                              res.status(200).send("Dados inseridos com sucesso")
                               res.end()
                             } 
                      }) 
@@ -56,7 +57,7 @@ app.set('views', './views')
         
     })
 
-    app.delete('/delete/:id', (req, res) => {
+    app.get('/delete/:id', (req, res) => {
         const  id = req.params.id
         const sql = "DELETE FROM person WHERE idPerson in (" + id + ")"
         mysqlCommand.query(sql, (err, result) => {
@@ -77,20 +78,20 @@ app.set('views', './views')
     })
 
     app.get('/unsubscribe/:email', (req, res) => {
-        const sqldelete = "Delete from person where email = '"+ req.params.email +"'"
+        const sqldelete = "Delete from person where email = '" +req.params.email+ "' and person.idType = 3;"
         mysqlCommand.query(sqldelete, (err, result) => {
             if(err) {
-                console.log(err)
-                res.status(401).send('Erro ao tentar cancelar inscrição... ' + err)
+                res.status(404).send('Erro ao tentar cancelar inscrição... ' + err)
                 res.end()
                 return;
                 }
                 if(!result.affectedRows){
-                    res.status(401).send("<h4>Sua inscrição já foi excluida de nossa lista com sucesso...</h4>") 
+                    res.status(201).send("<h4>Sua inscrição já foi excluida de nossa lista com sucesso...</h4>") 
                     res.end()
                     return;
-                } else {
-                    res.status(200).send("<h4>Sua inscrição foi cancelada com sucesso...</h4>")
+                } 
+                if(result.affectedRows) {
+                    res.status(200).send("<h4>Sua inscrição foi excluida com sucesso...</h4>")
                     res.end()
                     return
                 }
@@ -98,25 +99,16 @@ app.set('views', './views')
     })
 
     app.get('/get', (req, res) => {
-        const sql = "SELECT * FROM person"
+        const sql = "SELECT * FROM person, poll WHERE person.idPerson = poll.idPerson"
         mysqlCommand.query(sql, (err, result) => {
             if(err) {
                 console.log(err)
                 res.send('Erro of query select on database mysql... ' + err)
                 res.end()
+                return;
                 }
-
-                const data = result[0]
-
-                if(result.length == 0) {
-                    res.status(400).send("No such record found on database... ")
+                    res.status(200).json(result)
                     res.end()
-                    return;
-                } else {
-                    res.send(data.idPerson)
-                    res.end()
-                }
-                
         })
     })
 

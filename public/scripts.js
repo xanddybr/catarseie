@@ -130,17 +130,16 @@ btnvideo.addEventListener("click",()=> {
               agreeNotify.checked = false
               btnvideo.disabled = true
               message1.style.color = "green"
-              message1.style.fontSize = "18px"
               message2.style.color = "green"
+              message1.style.fontSize = "18px"
               message2.style.fontSize = "18px"
               message1.textContent = "Parabens!! " + firstName + " inscrição realizada com sucesso!!"
               message2.textContent = "Sua apostila foi enviada para o e-mail, " +  email + " !!"
               setTimeout(()=> {
                 location.reload()// Replace with your home page URL
-              }, 10000);
+              }, 20000);
               return
             }
-
 
             if(result.status === 201){
               message1.textContent = "Você já esta inscrito em nossa lista, aguarde logo receberá nossas novidades!"
@@ -150,14 +149,20 @@ btnvideo.addEventListener("click",()=> {
               return
             }
 
+            if(result.status === 401){
+              message1.textContent = "Erro na leitura do banco de dados!"
+              return
+            }
+
             if(result.status === 400){
-              message1.textContent = "Ainda não existe resgistro no banco de dados"
+              message1.textContent = "Erro na inserção na base de dados!"
               return
             }
          })
 
           .catch(error => {
             message1.textContent = "Error, servidor não responde, tente mais tarde!", error
+            return
           });
       break
        } 
