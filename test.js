@@ -21,7 +21,7 @@ function validateEmail(email) {
 */
 
 
-
+/*
 rl.question("What's your first name? ", (firstName) => {
     rl.question("What's your last name? ", (lastName) => {
         rl.question("How old are you? ", (age) => {
@@ -29,4 +29,10 @@ rl.question("What's your first name? ", (firstName) => {
         });
     });
 });
+*/
 
+function soma(v1,v2) {
+  return (v1 + v2);
+}
+
+console.log(soma(95,24));
