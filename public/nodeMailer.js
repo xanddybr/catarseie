@@ -3,6 +3,12 @@ const mysqlCommand = require('./mysql_conn');
 const moment = require('moment-timezone');
 const date = moment.tz('America/Sao_Paulo');
 const dateFormat = date.format('HH:mm:ss DD/MM/YYYY')
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 const transporter = nodemailer.createTransport({
   host: "smtp.hostinger.com", //server SMTP
@@ -26,36 +32,40 @@ function sendm(mailDestiny, name) {
     }
 
    transporter.sendMail(mailOptions,(err,info)=> {
-        const resp = info.response
-        const partresp = resp.split(" ");
-        const accp = info.accepted
-        const rjct = info.rejected
-        const msid = info.messageId
+       
     if(err){
-        const sqlinsert = "insert into sendedMails values (null, null,'"+ msid +"' ,'"+ accp +"' , '"+ rjct +"', "+ partresp[0] +", 'poll', 'automatic','"+ dateFormat +"')";
-        mysqlCommand.query(sqlinsert, (err, result) => {
-          if (err) {
             console.log("Fail in insert record...",err);
             return
-          } else {
-            console.log("Record inserted with sucess...");
-          }
-    })
-      return
       } else {
+
+          const resp = info.response
+          const partresp = resp.split(" ");
+          const accp = info.accepted
+          const rjct = info.rejected
+          const msid = info.messageId
+
         const sqlinsert = "insert into sendedMails values (null, null,'"+ msid +"' ,'"+ accp +"' , '"+ rjct +"', "+ partresp[0] +", 'poll', 'automatic','"+ dateFormat +"')";
         mysqlCommand.query(sqlinsert, (err, result) => {
+
           if (err) {
             console.log("Fail in insert record...",err);
             return
-          } else {
-            console.log("Log send mail number...");
           }
+          else if (result.affectedRows > 0) {
+            console.log("Record inserted successfully");
+          } else {
+            console.log("Fail in insert record...");
+          }
+        })
+      }
     })
   }
- })
- console.log("Email sent with success...")
 
-}
+  rl.question("What's your last name? ", (lastName) => {
+    rl.question("How old are you? ", (age) => {
+       
+    });
+  });
 
 module.exports = sendm;
+
