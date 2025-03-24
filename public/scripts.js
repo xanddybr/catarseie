@@ -6,6 +6,7 @@ const agreeNotify = document.getElementById("agreeNotify")
 const video = document.getElementById("video")
 const myform = document.getElementById("myform")
 
+
 document.getElementById('phone').addEventListener('keypress', function(event) {
   const charCode = event.which || event.keyCode;
   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
