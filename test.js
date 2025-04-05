@@ -1,5 +1,4 @@
 const readline = require('readline');
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -15,10 +14,58 @@ rl.question("What's your first name? ", (firstName) => {
     });
 });
 
-
-
-rl.question("How your email? ", (email) => {
-      console.log(validator.isEmail(email));
-});
+const result = myFunc()
+      .then(()=>{})
+      .catch(()=>{})
 
 */
+
+//ASSYNCRONUS FUNCTION EXAMPLE
+/*
+function myFunc() {
+
+  for(i = 0; i < 1000000000; i++) {
+     
+    } 
+  return i
+}
+
+async function init() {
+    const result = await myFunc()
+    console.log("I just run until that other function finishing...")
+    console.log(result)
+    
+}
+*/
+  
+
+
+//SYNCRONUS FUNCTION EXAMPLE
+
+/*
+function myFunc() {
+  for(i = 0; i < 10000; i++) { console.log("It is myfunction count...", i)  } 
+  return i
+}
+
+ function init() {
+    const result = myFunc()
+    console.log(result)
+    console.log("finished")
+}
+
+
+function getdata(){
+   fetch("https://catarseie.com.br/get")
+  .then( response => response.json())
+  .then( data => console.log(data))
+  .catch(error => console.log(error))
+}
+
+getdata()
+
+*/
+
+
+
+
