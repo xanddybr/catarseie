@@ -1,0 +1,28 @@
+{
+  "name": "catarseie",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xanddybr/catarseie.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xanddybr/catarseie/issues"
+  },
+  "homepage": "https://github.com/xanddybr/catarseie#readme",
+  "description": "",
+  "dependencies": {
+    "bootstrap": "^5.3.5",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.1",
+    "node": "^23.11.0",
+    "nodemon": "^3.1.9",
+    "pm2": "^6.0.5"
+  }
+}

@@ -1,0 +1,99 @@
+
+<main>
+    <div class="col imgArea">
+    <div class="col">
+    <div id="son2" class="col-lg">
+         <img src="/pictures/banner_main.jpeg">
+</div>
+    <br>
+    <div id="son1" class="col videoArea" style="text-align: center;">
+      <br>
+      <div id="mainTitle" class="d-flex justify-content-center fontTitulo" style="text-align: center;"> </div>  
+      <br>
+        <div id="myHistory" class="fontSubTitulo">
+          CONHEÇA A MINHA HISTÓRIA, <BR>E VEJA QUE O FATO DE ENTENDER QUEM SOMOS FAZ TODA A DIFERENÇA!
+      </div><br>  
+
+<!-- Begin Video -->
+
+      <div class="d-flex justify-content-center">
+        <video controls class="col-12 col-md-8" id="video"> 
+            <source src="/pictures/myhistory.mp4" type="video/mp4">
+        </video>
+      </div>
+<form id="myform">
+<div id="catchLead">
+ <div *ngIf="catchLeadPanel">     
+   <br>
+      <div class="col-11 col-md-5 col-lg-5 col-xl-3" style="margin: auto;">
+        <div class="d-flex justify-content-between ">
+                <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="fristName" id="firstName" placeholder="Nome"></div>
+                <div class="mb-2 col-6"><input type="text" class="form-control d-flex" name="lastName" id="lastName" placeholder="Ultimo nome"></div>
+        </div>
+              <div class="mb-2"><input class="form-control" type="email"  name="email" id="email" placeholder="Informe seu melhor e-mail"></div>
+               <div class="mb-2"><input class="form-control" name="phone" id="phone" maxlength="15" placeholder="Telefone, só números ex: 21988885555" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '')"></div>
+                <div class="mb-2">
+                <select class="form-control" id="yourCity" name="yourCity">
+                </select>
+                </div>
+                <div class="mb-2">
+                  <select class="form-control" name="age" id="age">
+                      <option selected value="">Em qual faixa de idade você se encontra?</option>
+                      <option value="15 á 30">15 á 30</option>
+                      <option value="30 á 45">30 á 45</option>
+                      <option value="45 á 60">45 á 60</option>
+                      <option value="60 á 85">75 á 90</option>
+                      <option value="acima de 85">acima de 90</option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <select class="form-control" name="howWeMet" id="howWeMet">
+                      <option selected value="">Informe como chegou até nós?</option>
+                      <option value="Instagram">Instagram</option>
+                      <option value="FaceBook">FaceBook</option>
+                      <option value="YouTube">YouTube</option>
+                      <option value="Google">Google</option>
+                      <option value="Indicação de um amigo">Indicação de um amigo</option>
+                      <option value="Grupos de WhatsApp">Grupos de WhatsApp</option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <select class="form-control" name="positionLife" id="positionLife">
+                      <option selected value="">Qual área da sua vida precisa de mais atenção?</option>
+                      <option value="Financeira">Financeira</option>
+                      <option value="Profissional">Profissional</option>
+                      <option value="Sentimental">Sentimental</option>
+                      <option value="Social">Social</option>
+                      <option value="Saúde Fisica">Saúde Fisica</option>
+                  </select>
+              </div>           
+                     <div class="mb-2" style="color: white;" >
+                <input type="checkbox" name="agreeNotify" id="agreeNotify" value=1> Autorizo receber informações sobre o treinamento Catarseie meu e-mail ou smartphone.
+               </div>
+            </div>  
+            
+     </div>
+    
+
+<!-- Begin CatchLead -->
+
+  </div>
+ <div class="d-flex justify-content-center" id="message1"></div>
+ <div class="d-flex justify-content-center" id="message2"></div>
+   <input id="btnvideo" class="btn btn-light buttonFile" type="button"><br><br>
+  </div>
+</form>
+ <footer>
+  <div class="col footArea" style="text-align: center;">
+    Catarse I.E, foi desenvolvida para o indivíduo ter alta performace, com base científica nas àreas da Psicologia, Neurociência (pnl) e Filosofia, elevando o nível para plenitude e abundância.<br>
+    2025 &copy; Catarseie Copyright Reserved<br><br>
+  </div>
+</footer>
+  </div>
+</main>
+
+
+
+
+
+    

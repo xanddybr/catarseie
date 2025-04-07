@@ -1,0 +1,64 @@
+
+.imgArea {
+    background-color: #101729;
+    text-align: center;
+ }
+
+ img {
+    height: 100%;
+    width: 70%;
+ }
+
+ .videoArea {
+    background-color: black;   
+ }
+ 
+ .buttonFile {
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: red;
+    margin-top: 50px;
+    margin-bottom: 10px;
+ }
+
+.fontTitulo {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.fontSubTitulo {
+    color: #808080;
+    font-size: 1rem;
+}
+
+ .footArea {
+    background-color: #101729;
+    color: #808080;
+    font-size: 0.8rem;
+    margin-top: 10px;
+ }
+ 
+html, body {
+    background-color: #101729;
+}
+
+
+body { 
+    background-color: #101729;
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+@media(max-width: 900px) {
+  .fontSubTitulo {
+     display: none;
+  }
+}
+
+@media(max-width: 900px) {
+  .fontTitulo {
+      font-size: 0.9rem;
+  }
+}
+
