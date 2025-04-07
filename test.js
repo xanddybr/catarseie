@@ -1,3 +1,4 @@
+/*
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -5,7 +6,7 @@ const rl = readline.createInterface({
 });
 
 
-/*
+
 rl.question("What's your first name? ", (firstName) => {
     rl.question("What's your last name? ", (lastName) => {
         rl.question("How old are you? ", (age) => {
@@ -42,12 +43,13 @@ async function init() {
 
 //SYNCRONUS FUNCTION EXAMPLE
 
-/*
+
 function myFunc() {
   for(i = 0; i < 10000; i++) { console.log("It is myfunction count...", i)  } 
   return i
 }
 
+/*
  function init() {
     const result = myFunc()
     console.log(result)
@@ -55,8 +57,9 @@ function myFunc() {
 }
 
 
+
 function getdata(){
-   fetch("https://catarseie.com.br/get")
+   fetch("")
   .then( response => response.json())
   .then( data => console.log(data))
   .catch(error => console.log(error))

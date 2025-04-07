@@ -1,5 +1,4 @@
 const express = require('express')
-const {engine} = require('express-handlebars')
 const transporter = require('./nodeMailer')
 const mysqlCommand = require('./mysql_conn')
 const moment = require('moment-timezone')
@@ -11,23 +10,11 @@ const dateFormat = date.format('HH:mm:ss DD/MM/YYYY')
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static('public'))
-app.use(express.static('assets'))
-
-app.engine('handlebars', engine())
-app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'))
-app.use('/css', express.static('./css'))
-app.set('view engine', 'handlebars')
-app.set('views', './views')
-
-    app.get('/', (req, res) => {
-        res.render('form')
-    })
 
     app.post('/submit', (req, res) => { 
         const { firstName, lastName, phone, email, yourCity, age, howWeMet, positionLife, agreeNotify } = req.body
 
-        /*const sqlSelect = "select email from fly_pigeon.person where email = '"+ email +"'";
+        const sqlSelect = "select email from fly_pigeon.person where email = '"+ email +"'";
         mysqlCommand.query(sqlSelect, (err, result) => {
             if(err) {   
                 res.status(401).send(err)
@@ -100,7 +87,7 @@ app.set('views', './views')
                         }
                     })
                 }
-            }) */
+            }) 
     })
 
     app.get('/delete/:id', (req, res) => {
@@ -151,16 +138,11 @@ app.set('views', './views')
                 console.log(err)
                 res.send('Erro of query select on database mysql... ' + err)
                 return;
-                }
+                } else {
                     res.status(200).json(result)
                     res.end()
+                }
         })
     })
-
-    function sum(v1, v2) {
-        return v1 + v2
-    }
-
-    // mysqlCommand.query("DELETE FROM person WHERE idPerson = " + req.params.id), (err, result) => {})
     
-module.exports = app, sum;
+module.exports = app;

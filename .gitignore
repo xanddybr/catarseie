@@ -1,3 +1,5 @@
 /node_modules
 /assets/pictures/myhistory.mp4
 *.mp4
+/cypress
+cypress.config.js
