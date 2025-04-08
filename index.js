@@ -1,16 +1,6 @@
-const express = require('express')
-const {engine} = require('express-handlebars')
-const app = express()
+const app = require('./public/express_app.js')
+const port = 3000
 
-// Set up Handlebars as the view engine
-app.engine('handlebars', engine())
-app.set('view engine', 'handlebars')
-
-// Route to render the home page
-app.get('/', (req, res) => {
-    res.render('home')
-});
-
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000')
-});
+app.listen(port, () => {
+    console.log('Node Server is running on port...' + port)
+}) 

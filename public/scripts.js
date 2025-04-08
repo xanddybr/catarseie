@@ -190,4 +190,4 @@ async function fetchStates(url) {
     })
 } 
 
-
+onloadInit()
